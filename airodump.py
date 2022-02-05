@@ -2,6 +2,7 @@ from tkinter import *
 import subprocess
 import signal
 import os
+import signal
 
 root=Tk()
 root.geometry("500x500")
@@ -14,15 +15,12 @@ def monitor():
 def airodump():
     i=1
     while i<5:
-        subprocess.run("airodump-ng wlan0",shell=True,timeout=10)
+        subprocess.run("airodump-ng wlan0 --write wifinetworks",shell=True,timeout=10)
         i+=1
 
-    String1 = subprocess.check_output('chcp 437 && ping /?', shell=True)
-    c.create_text(400, 0, anchor=N, fill='orange', font='Times 15', text=String1)
-    # c.create_text(750, 300, anchor=W, fill='orange', font='Times 28', text='List')
-
-    button = Button(root, text="Quit", command=root.destroy)
-    c.create_window(400, 0, anchor=N, window=button)
+def stop():
+    signal.SIGINT
+    exit()
 
 button2=Button(root,text="Monitor Mode",command=monitor)
 button2.place(x=200,y=100)
@@ -30,8 +28,8 @@ button2.place(x=200,y=100)
 button3=Button(root,text="airodump-ng",command=airodump)
 button3.place(x=330,y=100)
 
-
-
+button4=Button(root,text="Stop",command=stop)
+button4.place(x=200,y=200)
 
 
 root.mainloop()
